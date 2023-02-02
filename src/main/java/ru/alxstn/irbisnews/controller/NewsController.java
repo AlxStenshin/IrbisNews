@@ -6,26 +6,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.alxstn.irbisnews.entity.news.NewsEntry;
-import ru.alxstn.irbisnews.repository.NewsRepository;
+import ru.alxstn.irbisnews.service.NewsService;
 
 
 @RestController
 @RequestMapping(value = "/api/v1/news")
 public class NewsController {
 
-    private final NewsRepository repository;
+    private final NewsService service;
 
-    public NewsController(NewsRepository repository) {
-        this.repository = repository;
+    public NewsController(NewsService service) {
+        this.service = service;
     }
 
     @RequestMapping()
-    public Page<NewsEntry> getAll(@RequestParam(required = false) String source,
-                                  @RequestParam(required = false) String topic,
-                                  @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "3") int count) {
-
-        PageRequest pr = PageRequest.of(page, count);
-        return repository.findAll(pr);
+    public Page<NewsEntry> getNews(@RequestParam(required = false) String source,
+                                   @RequestParam(required = false) String topic,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "1") int count) {
+        // ToDo: handle exceptions
+        return service.findNews(source, topic, page, count);
     }
 }

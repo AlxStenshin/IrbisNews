@@ -19,7 +19,7 @@ public class NewsTopicController {
     }
 
     @GetMapping
-    public List<NewsTopic> getAllSources() {
+    public List<NewsTopic> getAllTopics() {
         return repository.findAll();
     }
 }
