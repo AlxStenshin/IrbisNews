@@ -5,7 +5,5 @@ import ru.alxstn.irbisnews.entity.NewsEntry;
 
 
 public interface NewsService {
-
     Page<NewsEntry> findNews(String source, String topic, int page, int count);
-
 }

@@ -14,18 +14,18 @@ import ru.alxstn.irbisnews.task.ReportTaskProcessor;
 import java.util.List;
 
 @Service
-public class CSVNewsSourceReportService implements NewsSourceReportService {
+public class CronScheduledNewsSourceReportService implements NewsSourceReportService {
 
-    Logger logger = LogManager.getLogger(CSVNewsSourceReportService.class);
+    Logger logger = LogManager.getLogger(CronScheduledNewsSourceReportService.class);
     private final ReportTaskExecutor taskExecutor;
     private final NewsSourceRepository sourceRepository;
     private final NewsRepository newsRepository;
     private final ReportBuilderConfigurationProperties properties;
 
-    public CSVNewsSourceReportService(ReportTaskExecutor taskExecutor,
-                                      NewsSourceRepository sourceRepository,
-                                      NewsRepository newsRepository,
-                                      ReportBuilderConfigurationProperties properties) {
+    public CronScheduledNewsSourceReportService(ReportTaskExecutor taskExecutor,
+                                                NewsSourceRepository sourceRepository,
+                                                NewsRepository newsRepository,
+                                                ReportBuilderConfigurationProperties properties) {
         this.taskExecutor = taskExecutor;
         this.sourceRepository = sourceRepository;
         this.newsRepository = newsRepository;

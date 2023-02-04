@@ -15,7 +15,11 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<NewsEntry, Long> {
 
     Page<NewsEntry> findAllByNewsSource(NewsSource source, Pageable p);
+
     List<NewsEntry> findAllByNewsSource(NewsSource source);
+
     Page<NewsEntry> findAllByNewsTopic(NewsTopic topic, Pageable p);
+
     Page<NewsEntry> findAllByNewsSourceAndNewsTopic(NewsSource source, NewsTopic topic, Pageable p);
+
 }

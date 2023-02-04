@@ -1,4 +1,4 @@
-package ru.alxstn.irbisnews.utils;
+package ru.alxstn.irbisnews.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;

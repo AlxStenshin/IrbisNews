@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.alxstn.irbisnews.properties.AuthConfigurationProperties;
-import ru.alxstn.irbisnews.utils.APIKeyAuthFilter;
+import ru.alxstn.irbisnews.security.APIKeyAuthFilter;
 
 @Configuration
 @EnableWebSecurity

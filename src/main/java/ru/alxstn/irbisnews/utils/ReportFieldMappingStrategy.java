@@ -25,12 +25,14 @@ public class ReportFieldMappingStrategy<T> extends ColumnPositionMappingStrategy
     }
 
     private String extractHeaderName(final BeanField beanField) {
-        if (beanField == null || beanField.getField() == null || beanField.getField().getDeclaredAnnotationsByType(
-                CsvBindByName.class).length == 0) {
+        if (beanField == null || beanField.getField() == null || beanField.getField()
+                .getDeclaredAnnotationsByType(CsvBindByName.class).length == 0) {
             return StringUtils.EMPTY;
         }
 
-        final CsvBindByName bindByNameAnnotation = beanField.getField().getDeclaredAnnotationsByType(CsvBindByName.class)[0];
+        final CsvBindByName bindByNameAnnotation = beanField.getField()
+                .getDeclaredAnnotationsByType(CsvBindByName.class)[0];
         return bindByNameAnnotation.column();
     }
+
 }

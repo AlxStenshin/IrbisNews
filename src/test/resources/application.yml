@@ -9,3 +9,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+
+auth:
+  header: test-token
+  token: some-very-very-very-long-test-token
+
+report:
+  directory: "testReport/"
+  prepend-timestamp: true
+  cron-expression: "*/10 * * * * *"

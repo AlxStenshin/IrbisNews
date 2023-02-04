@@ -34,7 +34,7 @@ public class ReportBuilderConfigurationProperties {
     }
 
     public void setCronExpression(String cronExpression) {
-       if (CronExpression.isValidExpression(cronExpression))
+        if (CronExpression.isValidExpression(cronExpression))
             this.cronExpression = cronExpression;
         else {
             logger.warn("Provided report cron expression invalid, default one used: " + this.cronExpression);
