@@ -8,8 +8,13 @@ spring:
     database: postgresql
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
+report:
+  directory: "report/"
+  prepend-timestamp: false
+#  cron-expression: "0 2 * * * *"
+  cron-expression: "*/10 * * * * *"
 
 management:
   endpoints.web.exposure.include: 'prometheus, health'

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.alxstn.irbisnews.entity.news.NewsSource;
+import ru.alxstn.irbisnews.entity.NewsSource;
 import ru.alxstn.irbisnews.repository.NewsSourceRepository;
 
 import java.util.List;

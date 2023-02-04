@@ -1,11 +1,10 @@
 package ru.alxstn.irbisnews.controller;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.alxstn.irbisnews.entity.news.NewsEntry;
+import ru.alxstn.irbisnews.entity.NewsEntry;
 import ru.alxstn.irbisnews.service.NewsService;
 
 

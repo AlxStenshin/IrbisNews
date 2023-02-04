@@ -1,6 +1,8 @@
-package ru.alxstn.irbisnews.entity.news;
+package ru.alxstn.irbisnews.entity;
 
 import jakarta.persistence.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "topic")
@@ -33,5 +35,20 @@ public class NewsTopic {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NewsTopic newsTopic = (NewsTopic) o;
+
+        return Objects.equals(title, newsTopic.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return title != null ? title.hashCode() : 0;
     }
 }

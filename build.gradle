@@ -16,9 +16,10 @@ dependencies {
 
     runtimeOnly 'org.postgresql:postgresql'
 
+    implementation 'com.opencsv:opencsv:5.7.1'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-
     implementation 'org.hibernate.validator:hibernate-validator'
+
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
