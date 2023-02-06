@@ -17,6 +17,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     implementation 'com.opencsv:opencsv:5.7.1'
+    implementation 'org.flywaydb:flyway-core'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'org.hibernate.validator:hibernate-validator'
 

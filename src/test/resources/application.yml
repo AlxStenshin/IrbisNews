@@ -4,15 +4,19 @@ spring:
     username: user
     password: password
     driver-class-name: org.h2.Driver
+
   jpa:
     database: H2
     show-sql: true
     hibernate:
       ddl-auto: create
 
+  flyway:
+    enabled: false
+
 auth:
-  header: test-token
-  token: some-very-very-very-long-test-token
+  header: token
+  token: test-token
 
 report:
   directory: "testReport/"

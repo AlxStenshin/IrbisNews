@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import ru.alxstn.irbisnews.entity.NewsEntry;
 import ru.alxstn.irbisnews.entity.NewsSource;
 import ru.alxstn.irbisnews.exception.ReportFileException;
-import ru.alxstn.irbisnews.model.TopicReport;
+import ru.alxstn.irbisnews.dto.TopicReport;
 import ru.alxstn.irbisnews.properties.ReportBuilderConfigurationProperties;
 import ru.alxstn.irbisnews.repository.NewsRepository;
 import ru.alxstn.irbisnews.utils.ReportFieldMappingStrategy;

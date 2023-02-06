@@ -1,4 +1,4 @@
-package ru.alxstn.irbisnews.controller;
+package ru.alxstn.irbisnews.controller.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,7 @@ import ru.alxstn.irbisnews.repository.NewsSourceRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/source/")
+@RequestMapping(value = "/api/v1/source")
 public class NewsSourceController {
 
     private final NewsSourceRepository repository;

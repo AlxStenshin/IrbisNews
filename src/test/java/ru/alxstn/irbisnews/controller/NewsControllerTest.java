@@ -1,34 +1,118 @@
 package ru.alxstn.irbisnews.controller;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.alxstn.irbisnews.service.NewsService;
+import org.springframework.test.web.servlet.MockMvc;
+import ru.alxstn.irbisnews.controller.rest.NewsController;
+import ru.alxstn.irbisnews.entity.NewsSource;
+import ru.alxstn.irbisnews.entity.NewsTopic;
+import ru.alxstn.irbisnews.repository.NewsRepository;
+import ru.alxstn.irbisnews.repository.NewsSourceRepository;
+import ru.alxstn.irbisnews.repository.NewsTopicRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ExtendWith(value = SpringExtension.class)
+@AutoConfigureMockMvc
 class NewsControllerTest {
 
-    @Mock
-    NewsService service;
+    @Autowired
+    MockMvc mockMvc;
 
-    @InjectMocks
+    @Autowired
     NewsController controller;
 
+    @Autowired
+    NewsRepository newsRepository;
+
+    @Autowired
+    NewsSourceRepository newsSourceRepository;
+
+    @Autowired
+    NewsTopicRepository newsTopicRepository;
+
+    @AfterEach
+    void cleanup() {
+        newsSourceRepository.deleteAll();
+        newsTopicRepository.deleteAll();
+        newsRepository.deleteAll();
+    }
+
     @Test
-    void shouldCallServiceExactlyOneTime() {
-        when(service.findNews("", "", 0, 1)).thenReturn(Page.empty());
+    void shouldCorrectlyInjectController() {
+        assertThat(controller).isNotNull();
+    }
 
-        var result = controller.getNews("", "", 0, 1);
+    @Test
+    void shouldReceiveOkWithCorrectToken() throws Exception {
+        mockMvc.perform(get("/api/v1/news")
+                .header("token" , "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
-        verify(service, times(1)).findNews("", "", 0, 1);
-        assertEquals(0, result.getSize());
+    @Test
+    void shouldReceiveForbiddenStatusWithIncorrectToken() throws Exception {
+        mockMvc.perform(get("/api/v1/news")
+                .header("token" , "bad-token"))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldReceiveNotFoundWithUnavailableSource() throws Exception {
+        mockMvc.perform(get("/api/v1/news?source=unavailable")
+                        .header("token" , "test-token"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReceiveNotFoundWithUnavailableTopic() throws Exception {
+        mockMvc.perform(get("/api/v1/news?topic=unavailable")
+                        .header("token" , "test-token"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReceiveOkWithAvailableTopic() throws Exception {
+        newsTopicRepository.save(new NewsTopic("topic"));
+
+        mockMvc.perform(get("/api/v1/news?topic=topic")
+                        .header("token" , "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReceiveOkWithAvailableSource() throws Exception {
+        newsSourceRepository.save(new NewsSource("source"));
+
+        mockMvc.perform(get("/api/v1/news?source=source")
+                        .header("token" , "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReceiveOkWithBothAvailableSourceAndTopic() throws Exception {
+        newsTopicRepository.save(new NewsTopic("topic"));
+        newsSourceRepository.save(new NewsSource("source"));
+
+        mockMvc.perform(get("/api/v1/news?topic=topic&source=source")
+                        .header("token" , "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }

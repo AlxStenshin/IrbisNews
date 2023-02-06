@@ -1,10 +1,10 @@
-package ru.alxstn.irbisnews.controller;
+package ru.alxstn.irbisnews.controller.rest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.alxstn.irbisnews.entity.NewsEntry;
+import ru.alxstn.irbisnews.dto.NewsDTO;
 import ru.alxstn.irbisnews.service.NewsService;
 
 
@@ -19,11 +19,10 @@ public class NewsController {
     }
 
     @RequestMapping()
-    public Page<NewsEntry> getNews(@RequestParam(required = false) String source,
-                                   @RequestParam(required = false) String topic,
-                                   @RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "1") int count) {
-        // ToDo: handle exceptions
+    public Page<NewsDTO> getNews(@RequestParam(required = false) String source,
+                                 @RequestParam(required = false) String topic,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "3") int count) {
         return service.findNews(source, topic, page, count);
     }
 }
