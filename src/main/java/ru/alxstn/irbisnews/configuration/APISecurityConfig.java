@@ -32,6 +32,7 @@ public class APISecurityConfig {
             return authentication;
         });
 
+        http.securityMatcher("/html/**").anonymous();
         http.securityMatcher("/api/**").
                 csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
