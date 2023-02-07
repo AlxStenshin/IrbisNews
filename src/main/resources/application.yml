@@ -2,8 +2,8 @@ spring:
   config:
     import: secrets.yml
   datasource:
-    url: jdbc:postgresql://localhost:5432/irbis
-#    url: jdbc:postgresql://db:5432/irbis
+#    url: jdbc:postgresql://localhost:5432/irbis
+    url: jdbc:postgresql://db:5432/irbis
     driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
