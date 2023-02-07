@@ -1,45 +1,80 @@
 package ru.alxstn.irbisnews.controller;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import ru.alxstn.irbisnews.controller.rest.NewsSourceController;
 import ru.alxstn.irbisnews.entity.NewsSource;
 import ru.alxstn.irbisnews.repository.NewsSourceRepository;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class NewsSourceControllerTest {
 
-    @Mock
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
     NewsSourceRepository repository;
 
-    @InjectMocks
+    @Autowired
     NewsSourceController controller;
 
-    @Test
-    void shouldReturnEmptyListWithEmptyRepository() {
-        when(repository.findAll()).thenReturn(List.of());
-        var result = controller.getAllSources();
-        assertEquals(0, result.size());
+    @AfterEach
+    void cleanup() {
+        repository.deleteAll();
     }
 
     @Test
-    void shouldReturnListOfTwoSources() {
-        List<String> input = List.of("irbis.plus", "praktika.irbis.plus");
-        List<NewsSource> sources = input.stream().map(NewsSource::new).toList();
-        when(repository.findAll()).thenReturn(sources);
+    void shouldCorrectlyInjectBeans() {
+        assertThat(controller).isNotNull();
+        assertThat(repository).isNotNull();
+    }
 
-        var result = controller.getAllSources();
+    @Test
+    void shouldReturnEmptyListWithEmptyRepository() throws Exception {
+        var result = mockMvc.perform(get("/api/v1/source")
+                        .header("token", "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
 
-        assertEquals(input.size(), result.size());
-        assertTrue(result.stream().allMatch(ns -> input.contains(ns.getName())));
+        assertEquals("[]", result.getResponse().getContentAsString());
+
+    }
+
+    @Test
+    void shouldReturnListOfTwoSources() throws Exception {
+        List<NewsSource> input = List.of(
+                new NewsSource("irbis.plus"),
+                new NewsSource("praktika.irbis.plus")
+        );
+
+        repository.saveAll(input);
+
+        var result =  mockMvc.perform(get("/api/v1/source")
+                        .header("token", "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        for (var source: input) {
+            assertTrue(result.getResponse().getContentAsString().contains(source.getName()));
+        }
     }
 
 }

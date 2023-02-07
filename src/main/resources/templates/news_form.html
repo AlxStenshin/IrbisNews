@@ -23,6 +23,13 @@
 
 <head>
     <title>News List</title>
+    <div>
+    <span>
+        <a th:href="@{/html/news}">All News</a>
+        <a th:href="@{/html/sources}">All Sources</a>
+        <a th:href="@{/html/topics}">All Topics</a>
+    </span>
+    </div>
 </head>
 
 <body>
@@ -35,7 +42,7 @@
     <tr th:each="entry : ${newsPage.content}">
         <td th:text="${entry.id}" />
 
-        <td> <a th:href="@{/html/news(name=${entry.source})}"
+        <td> <a th:href="@{/html/news(source=${entry.source})}"
             th:text="${entry.source}" /> </td>
 
         <td> <a th:href="@{/html/news(topic=${entry.topic})}"
@@ -51,14 +58,6 @@
     <a th:text="${pageNumber}"
        th:href="@{/html/news(size=${newsPage.size}, page=${pageNumber})}"
        th:class="${pageNumber==newsPage.number + 1} ? active"></a>
-</div>
-
-<div>
-    <span>
-        <a th:href="@{/html/news}">All News</a>
-        <a th:href="@{/html/sources}">All Sources</a>
-        <a th:href="@{/html/topics}">All Topics</a>
-    </span>
 </div>
 
 <div>

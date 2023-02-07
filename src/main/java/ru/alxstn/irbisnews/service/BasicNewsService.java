@@ -1,10 +1,12 @@
 package ru.alxstn.irbisnews.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.alxstn.irbisnews.dto.NewsDTO;
-import ru.alxstn.irbisnews.dto.NewsDTOBuilder;
+import ru.alxstn.irbisnews.dto.builder.NewsDTOBuilder;
 import ru.alxstn.irbisnews.entity.NewsSource;
 import ru.alxstn.irbisnews.entity.NewsTopic;
 import ru.alxstn.irbisnews.exception.NewsSourceNotFoundException;
@@ -13,8 +15,12 @@ import ru.alxstn.irbisnews.repository.NewsRepository;
 import ru.alxstn.irbisnews.repository.NewsSourceRepository;
 import ru.alxstn.irbisnews.repository.NewsTopicRepository;
 
+import java.util.Optional;
+
 @Service
 public class BasicNewsService implements NewsService {
+
+    Logger logger = LogManager.getLogger(BasicNewsService.class);
 
     private final NewsRepository newsRepository;
     private final NewsSourceRepository newsSourceRepository;
@@ -32,29 +38,36 @@ public class BasicNewsService implements NewsService {
     }
 
     @Override
-    public Page<NewsDTO> findNews(String sourceName, String topicTitle, int page, int count) {
-        PageRequest pr = PageRequest.of(page, count);
-        boolean sourceProvided = sourceName != null && !sourceName.isBlank();
-        boolean topicProvided = topicTitle != null && !topicTitle.isBlank();
+    public Page<NewsDTO> findNews(String source, String topic,
+                                  Integer page, Integer count) {
 
-        if (!sourceProvided && !topicProvided) {
+        PageRequest pr = PageRequest.of(Optional.ofNullable(page).orElse(0),
+                Optional.ofNullable(count).orElse(3));
+        var src = Optional.ofNullable(source);
+        var top = Optional.ofNullable(topic);
+
+        logger.info("Find News Request Received.");
+        if (src.isEmpty() && top.isEmpty()) {
+            logger.info("Find All News Request Received.");
             return newsRepository.findAll(pr)
                     .map(dtoBuilder::fromEntry);
 
-        } else if (sourceProvided && topicProvided) {
+        } else if (src.isPresent() && top.isPresent()) {
+            logger.info("Find News By Source And Topic Request Received.");
             return newsRepository.findAllByNewsSourceAndNewsTopic(
-                    findSource(sourceName), findTopic(topicTitle), pr)
+                            findSource(src.get()), findTopic(top.get()), pr)
                     .map(dtoBuilder::fromEntry);
 
-        } else if (sourceProvided) {
-            return newsRepository.findAllByNewsSource(findSource(sourceName), pr)
+        } else if (src.isPresent()) {
+            logger.info("Find News By Source Request Received.");
+            return newsRepository.findAllByNewsSource(findSource(src.get()), pr)
                     .map(dtoBuilder::fromEntry);
 
         } else {
-            return newsRepository.findAllByNewsTopic(findTopic(topicTitle), pr)
+            logger.info("Find News By Topic Request Received.");
+            return newsRepository.findAllByNewsTopic(findTopic(top.get()), pr)
                     .map(dtoBuilder::fromEntry);
         }
-
     }
 
     private NewsSource findSource(String name) {

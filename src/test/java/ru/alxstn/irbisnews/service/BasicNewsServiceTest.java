@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.alxstn.irbisnews.dto.NewsDTO;
-import ru.alxstn.irbisnews.dto.NewsDTOBuilder;
+import ru.alxstn.irbisnews.dto.builder.NewsDTOBuilder;
 import ru.alxstn.irbisnews.entity.NewsEntry;
 import ru.alxstn.irbisnews.entity.NewsSource;
 import ru.alxstn.irbisnews.entity.NewsTopic;

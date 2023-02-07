@@ -4,10 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.alxstn.irbisnews.dto.NewsDTO;
 import ru.alxstn.irbisnews.service.NewsService;
 
@@ -34,17 +31,14 @@ public class NewsHtmlController {
 
     @GetMapping(value = "/html/news{page}{size}{topic}{source}",
             produces = MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String getNews(@PathVariable(required = false) String topic,
-                          @PathVariable(required = false) String source,
-                          @PathVariable(required = false) Optional<Integer> page,
-                          @PathVariable(required = false) Optional<Integer> size,
+    public String getNews(@RequestParam(required = false) String topic,
+                          @RequestParam(required = false) String source,
+                          @RequestParam(required = false) Integer page,
+                          @RequestParam(required = false) Integer size,
                           Model model) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
-
         try {
-            Page<NewsDTO> newsPage = service.findNews(source, topic, currentPage - 1, pageSize);
+            page = Optional.ofNullable(page).map(integer -> integer - 1).orElse(0);
+            Page<NewsDTO> newsPage = service.findNews(source, topic, page, size);
             model.addAttribute("newsPage", newsPage);
             int totalPages = newsPage.getTotalPages();
 

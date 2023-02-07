@@ -70,16 +70,18 @@ class NewsControllerTest {
 
     @Test
     void shouldReceiveNotFoundWithUnavailableSource() throws Exception {
-        mockMvc.perform(get("/api/v1/news?source=unavailable")
-                        .header("token" , "test-token"))
+        mockMvc.perform(get("/api/v1/news")
+                        .header("token", "test-token")
+                        .param("source", "unavailable"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void shouldReceiveNotFoundWithUnavailableTopic() throws Exception {
-        mockMvc.perform(get("/api/v1/news?topic=unavailable")
-                        .header("token" , "test-token"))
+        mockMvc.perform(get("/api/v1/news")
+                        .header("token" , "test-token")
+                        .param("topic", "unavailable"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -88,8 +90,9 @@ class NewsControllerTest {
     void shouldReceiveOkWithAvailableTopic() throws Exception {
         newsTopicRepository.save(new NewsTopic("topic"));
 
-        mockMvc.perform(get("/api/v1/news?topic=topic")
-                        .header("token" , "test-token"))
+        mockMvc.perform(get("/api/v1/news")
+                        .header("token" , "test-token")
+                        .param("topic", "topic"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -98,8 +101,9 @@ class NewsControllerTest {
     void shouldReceiveOkWithAvailableSource() throws Exception {
         newsSourceRepository.save(new NewsSource("source"));
 
-        mockMvc.perform(get("/api/v1/news?source=source")
-                        .header("token" , "test-token"))
+        mockMvc.perform(get("/api/v1/news")
+                        .header("token", "test-token")
+                        .param("source", "source"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -109,8 +113,10 @@ class NewsControllerTest {
         newsTopicRepository.save(new NewsTopic("topic"));
         newsSourceRepository.save(new NewsSource("source"));
 
-        mockMvc.perform(get("/api/v1/news?topic=topic&source=source")
-                        .header("token" , "test-token"))
+        mockMvc.perform(get("/api/v1/news")
+                        .header("token", "test-token")
+                        .param("topic", "topic")
+                        .param("source", "source"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

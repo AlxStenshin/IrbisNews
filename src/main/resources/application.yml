@@ -7,7 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: validate
   flyway:
@@ -18,10 +18,18 @@ spring:
 report:
   directory: "report/"
   prepend-timestamp: false
+
+#  every day in 02 PM
   cron-expression: "0 2 * * * *"
+
+#  every ten seconds
 #  cron-expression: "*/10 * * * * *"
 
 logging:
   level:
-    org.springframework: debug
+    org.springframework: info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
 

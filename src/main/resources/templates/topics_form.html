@@ -3,6 +3,13 @@
 
 <head>
     <title>News Topics</title>
+    <div>
+    <span>
+        <a th:href="@{/html/news}">All News</a>
+        <a th:href="@{/html/sources}">All Sources</a>
+        <a th:href="@{/html/topics}">All Topics</a>
+    </span>
+    </div>
 </head>
 
 <body>
@@ -15,22 +22,12 @@
     <tr th:each="topic : ${topics}">
         <td th:text="${topic.id}" />
 
-        <td> <a th:href="@{/html/news(topic=${topic.title})}"
-                th:text="${topic.title}"/>
+        <td> <a th:href="@{/html/news(topic=${topic.topicTitle})}"
+                th:text="${topic.topicTitle}"/>
         </td>
     </tr>
     </tbody>
 </table>
-
-
-<div>
-    <span>
-        <a th:href="@{/html/news}">All News</a>
-        <a th:href="@{/html/sources}">All Sources</a>
-        <a th:href="@{/html/topics}">All Topics</a>
-    </span>
-</div>
-
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package ru.alxstn.irbisnews.controller.rest;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +19,11 @@ public class NewsController {
         this.service = service;
     }
 
-    @RequestMapping()
+    @GetMapping()
     public Page<NewsDTO> getNews(@RequestParam(required = false) String source,
                                  @RequestParam(required = false) String topic,
-                                 @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "3") int count) {
+                                 @RequestParam(defaultValue = "0") Integer page,
+                                 @RequestParam(defaultValue = "3") Integer count) {
         return service.findNews(source, topic, page, count);
     }
 }

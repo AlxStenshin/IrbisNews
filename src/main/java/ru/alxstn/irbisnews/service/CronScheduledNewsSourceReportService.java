@@ -35,9 +35,8 @@ public class CronScheduledNewsSourceReportService implements NewsSourceReportSer
     @Scheduled(cron = "${report.cron-expression}")
     @Override
     public void createReport() {
-        logger.info("Started by cron.");
         List<NewsSource> sources = sourceRepository.findAll();
-        logger.info("Fetching news sources: " + sources.size() + " entries found");
+        logger.info("Started by cron. Fetching news sources: " + sources.size() + " entries found");
 
         sources.forEach(source -> taskExecutor.start(() ->
                 new ReportTaskProcessor(newsRepository, source, properties).executeTask()));

@@ -5,5 +5,6 @@ import ru.alxstn.irbisnews.dto.NewsDTO;
 
 
 public interface NewsService {
-    Page<NewsDTO> findNews(String source, String topic, int page, int count);
+    Page<NewsDTO> findNews(String source, String topic,
+                           Integer page, Integer count);
 }

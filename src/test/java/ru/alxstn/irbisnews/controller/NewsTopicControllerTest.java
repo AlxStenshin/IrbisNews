@@ -1,50 +1,83 @@
 package ru.alxstn.irbisnews.controller;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import ru.alxstn.irbisnews.controller.rest.NewsTopicController;
 import ru.alxstn.irbisnews.entity.NewsTopic;
 import ru.alxstn.irbisnews.repository.NewsTopicRepository;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class NewsTopicControllerTest {
 
-    @Mock
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
     NewsTopicRepository repository;
 
-    @InjectMocks
+    @Autowired
     NewsTopicController controller;
 
+    @AfterEach
+    void cleanup() {
+        repository.deleteAll();
+    }
+
     @Test
-    void shouldReturnEmptyListWithEmptyRepository() {
-        when(repository.findAll()).thenReturn(List.of());
-        var result = controller.getAllTopics();
-        assertEquals(0, result.size());
+    void shouldCorrectlyInjectBeans() {
+        assertThat(controller).isNotNull();
+        assertThat(repository).isNotNull();
+    }
+
+    @Test
+    void shouldReturnEmptyListWithEmptyRepository() throws Exception {
+        var result = mockMvc.perform(get("/api/v1/topic")
+                        .header("token", "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertEquals("[]", result.getResponse().getContentAsString());
 
     }
 
     @Test
-    void shouldReturnListOfFourTopics() {
-        List<String> input = List.of(
-                "Помощь юр. лицам",
-                "Помощь физ. лицам",
-                "О нас",
-                "Обновления сервиса");
-        List<NewsTopic> topics = input.stream().map(NewsTopic::new).toList();
-        when(repository.findAll()).thenReturn(topics);
+    void shouldReturnListOfFourSources() throws Exception {
+        List<NewsTopic> input = List.of(
+                new NewsTopic("one"),
+                new NewsTopic("two"),
+                new NewsTopic("three"),
+                new NewsTopic("four")
+        );
 
-        var result = controller.getAllTopics();
+        repository.saveAll(input);
 
-        assertEquals(input.size(), result.size());
-        assertTrue(result.stream().allMatch(ns -> input.contains(ns.getTitle())));
+        var result =  mockMvc.perform(get("/api/v1/topic")
+                        .header("token", "test-token"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        for (var topic : input) {
+            System.out.println(topic.getTitle());
+            assertTrue(result.getResponse().getContentAsString().contains(topic.getTitle()));
+        }
     }
 
 }

@@ -33,6 +33,8 @@ public class APISecurityConfig {
         });
 
         http.securityMatcher("/html/**").anonymous();
+        http.securityMatcher("/swagger-ui/**", "/v3/api-docs/**").anonymous();
+
         http.securityMatcher("/api/**").
                 csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
