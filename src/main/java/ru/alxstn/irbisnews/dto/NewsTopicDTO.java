@@ -4,6 +4,14 @@ public class NewsTopicDTO {
     private String topicTitle;
     private long id;
 
+    public NewsTopicDTO() {
+    }
+
+    public NewsTopicDTO(long id, String topicTitle) {
+        this.topicTitle = topicTitle;
+        this.id = id;
+    }
+
     public String getTopicTitle() {
         return topicTitle;
     }

@@ -40,7 +40,7 @@ class BasicNewsServiceTest {
     NewsTopicRepository newsTopicRepository;
 
     @Mock
-    NewsDTOBuilder builder;
+    NewsDTOBuilder dtoBuilder;
 
     @InjectMocks
     BasicNewsService newsService;
@@ -69,7 +69,7 @@ class BasicNewsServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         NewsEntry entry = new NewsEntry(new NewsSource("source"), new NewsTopic("topic"), "content");
         when(newsRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(entry), pageable, 1L));
-        when(builder.fromEntry(entry)).thenReturn(new NewsDTO("content", "source", "topic"));
+        when(dtoBuilder.fromEntry(entry)).thenReturn(new NewsDTO("content", "source", "topic"));
 
         var actual = newsService.findNews(null, null, 0, 1);
 

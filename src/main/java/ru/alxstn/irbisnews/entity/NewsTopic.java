@@ -18,6 +18,11 @@ public class NewsTopic {
     public NewsTopic() {
     }
 
+    public NewsTopic(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public NewsTopic(String title) {
         this.title = title;
     }

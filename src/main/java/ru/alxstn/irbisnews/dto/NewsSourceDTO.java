@@ -4,6 +4,14 @@ public class NewsSourceDTO {
     private String sourceName;
     private long id;
 
+    public NewsSourceDTO() {
+    }
+
+    public NewsSourceDTO(long id, String sourceName) {
+        this.sourceName = sourceName;
+        this.id = id;
+    }
+
     public String getSourceName() {
         return sourceName;
     }

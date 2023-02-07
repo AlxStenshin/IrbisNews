@@ -1,5 +1,5 @@
 package ru.alxstn.irbisnews.service;
 
-public interface NewsSourceReportService {
+public interface ReportService {
     void createReport();
 }

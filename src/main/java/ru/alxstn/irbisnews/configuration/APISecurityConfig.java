@@ -42,6 +42,5 @@ public class APISecurityConfig {
                 .addFilter(filter).authorizeHttpRequests().anyRequest().authenticated();
 
         return http.build();
-
     }
 }

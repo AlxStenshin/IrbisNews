@@ -1,4 +1,4 @@
-package ru.alxstn.irbisnews.dto;
+package ru.alxstn.irbisnews.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;

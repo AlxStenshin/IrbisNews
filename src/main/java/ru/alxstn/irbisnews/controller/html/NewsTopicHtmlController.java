@@ -5,27 +5,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.alxstn.irbisnews.dto.builder.NewsTopicDTOBuilder;
-import ru.alxstn.irbisnews.repository.NewsTopicRepository;
+import ru.alxstn.irbisnews.service.NewsTopicService;
 
 @Controller
 @RequestMapping(value = "/html/topics")
 public class NewsTopicHtmlController {
 
-    private final NewsTopicRepository repository;
-    private final NewsTopicDTOBuilder dtoBuilder;
+private final NewsTopicService service;
 
-    public NewsTopicHtmlController(NewsTopicRepository repository,
-                                   NewsTopicDTOBuilder dtoBuilder) {
-        this.repository = repository;
-        this.dtoBuilder = dtoBuilder;
+    public NewsTopicHtmlController(NewsTopicService service) {
+        this.service = service;
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     public String getAllTopics(Model model) {
         try {
-            model.addAttribute("topics", repository.findAll().stream()
-                    .map(dtoBuilder::fromNewsTopic));
+            model.addAttribute("topics", service.findAllTopics());
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }

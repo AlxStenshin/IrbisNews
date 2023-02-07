@@ -14,9 +14,10 @@ import ru.alxstn.irbisnews.task.ReportTaskProcessor;
 import java.util.List;
 
 @Service
-public class CronScheduledNewsSourceReportService implements NewsSourceReportService {
+public class CronScheduledNewsSourceReportService implements ReportService {
 
     Logger logger = LogManager.getLogger(CronScheduledNewsSourceReportService.class);
+
     private final ReportTaskExecutor taskExecutor;
     private final NewsSourceRepository sourceRepository;
     private final NewsRepository newsRepository;

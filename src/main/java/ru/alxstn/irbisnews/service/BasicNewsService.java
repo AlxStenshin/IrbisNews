@@ -46,25 +46,25 @@ public class BasicNewsService implements NewsService {
         var src = Optional.ofNullable(source);
         var top = Optional.ofNullable(topic);
 
-        logger.info("Find News Request Received.");
+
         if (src.isEmpty() && top.isEmpty()) {
-            logger.info("Find All News Request Received.");
+            logger.info("All News Request Received.");
             return newsRepository.findAll(pr)
                     .map(dtoBuilder::fromEntry);
 
         } else if (src.isPresent() && top.isPresent()) {
-            logger.info("Find News By Source And Topic Request Received.");
+            logger.info("News By Source And Topic Request Received.");
             return newsRepository.findAllByNewsSourceAndNewsTopic(
                             findSource(src.get()), findTopic(top.get()), pr)
                     .map(dtoBuilder::fromEntry);
 
         } else if (src.isPresent()) {
-            logger.info("Find News By Source Request Received.");
+            logger.info("News By Source Request Received.");
             return newsRepository.findAllByNewsSource(findSource(src.get()), pr)
                     .map(dtoBuilder::fromEntry);
 
         } else {
-            logger.info("Find News By Topic Request Received.");
+            logger.info("News By Topic Request Received.");
             return newsRepository.findAllByNewsTopic(findTopic(top.get()), pr)
                     .map(dtoBuilder::fromEntry);
         }
