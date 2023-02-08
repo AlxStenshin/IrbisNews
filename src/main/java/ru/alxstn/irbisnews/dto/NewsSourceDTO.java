@@ -8,8 +8,8 @@ public class NewsSourceDTO {
     }
 
     public NewsSourceDTO(long id, String sourceName) {
-        this.sourceName = sourceName;
         this.id = id;
+        this.sourceName = sourceName;
     }
 
     public String getSourceName() {

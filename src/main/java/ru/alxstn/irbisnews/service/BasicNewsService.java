@@ -20,8 +20,6 @@ import java.util.Optional;
 @Service
 public class BasicNewsService implements NewsService {
 
-    Logger logger = LogManager.getLogger(BasicNewsService.class);
-
     private final NewsRepository newsRepository;
     private final NewsSourceRepository newsSourceRepository;
     private final NewsTopicRepository newsTopicRepository;
@@ -48,26 +46,17 @@ public class BasicNewsService implements NewsService {
 
 
         if (src.isEmpty() && top.isEmpty()) {
-            logger.info("All News Request Received.");
             return newsRepository.findAll(pr)
                     .map(dtoBuilder::fromEntry);
 
         } else if (src.isPresent() && top.isPresent()) {
-            logger.info("News By Source And Topic Request Received.");
             return newsRepository.findAllByNewsSourceAndNewsTopic(
                             findSource(src.get()), findTopic(top.get()), pr)
                     .map(dtoBuilder::fromEntry);
 
-        } else if (src.isPresent()) {
-            logger.info("News By Source Request Received.");
-            return newsRepository.findAllByNewsSource(findSource(src.get()), pr)
-                    .map(dtoBuilder::fromEntry);
-
-        } else {
-            logger.info("News By Topic Request Received.");
-            return newsRepository.findAllByNewsTopic(findTopic(top.get()), pr)
-                    .map(dtoBuilder::fromEntry);
-        }
+        } else return src.map(s -> newsRepository.findAllByNewsSource(findSource(s), pr)
+                .map(dtoBuilder::fromEntry)).orElseGet(() -> newsRepository.findAllByNewsTopic(findTopic(top.get()), pr)
+                .map(dtoBuilder::fromEntry));
     }
 
     private NewsSource findSource(String name) {

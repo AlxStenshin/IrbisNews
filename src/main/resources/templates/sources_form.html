@@ -17,6 +17,11 @@
 
 <table th:border="1">
     <thead>
+    <tr>
+        <div th:if="${message != null}">
+            <th th:text="${message}" />
+        </div>
+    </tr>
     </thead>
     <tbody>
     <tr th:each="source : ${sources}">

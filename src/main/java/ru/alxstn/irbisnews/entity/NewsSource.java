@@ -50,11 +50,14 @@ public class NewsSource {
 
         NewsSource that = (NewsSource) o;
 
+        if (!Objects.equals(id, that.id)) return false;
         return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }

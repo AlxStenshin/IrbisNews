@@ -6,11 +6,11 @@ import ru.alxstn.irbisnews.entity.NewsSource;
 
 @Component
 public class BasicNewsSourceDTOBuilder implements NewsSourceDTOBuilder {
+
     @Override
     public NewsSourceDTO fromNewsSource(NewsSource source) {
-        return new NewsSourceDTO() {{
-            setId(source.getId());
-            setSourceName(source.getName());
-        }};
+        return new NewsSourceDTO(
+                source.getId(),
+                source.getName());
     }
 }

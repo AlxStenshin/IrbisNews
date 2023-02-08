@@ -50,11 +50,14 @@ public class NewsTopic {
 
         NewsTopic newsTopic = (NewsTopic) o;
 
+        if (!Objects.equals(id, newsTopic.id)) return false;
         return Objects.equals(title, newsTopic.title);
     }
 
     @Override
     public int hashCode() {
-        return title != null ? title.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        return result;
     }
 }

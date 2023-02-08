@@ -8,9 +8,8 @@ import ru.alxstn.irbisnews.entity.NewsTopic;
 public class BasicNewsTopicDTOBuilder implements NewsTopicDTOBuilder {
     @Override
     public NewsTopicDTO fromNewsTopic(NewsTopic topic) {
-        return new NewsTopicDTO() {{
-            setId(topic.getId());
-            setTopicTitle(topic.getTitle());
-        }};
+        return new NewsTopicDTO(
+                topic.getId(),
+                topic.getTitle());
     }
 }

@@ -59,6 +59,7 @@ public class NewsEntry {
 
         NewsEntry newsEntry = (NewsEntry) o;
 
+        if (!Objects.equals(id, newsEntry.id)) return false;
         if (!Objects.equals(newsSource, newsEntry.newsSource)) return false;
         if (!Objects.equals(newsTopic, newsEntry.newsTopic)) return false;
         return Objects.equals(content, newsEntry.content);
@@ -66,7 +67,8 @@ public class NewsEntry {
 
     @Override
     public int hashCode() {
-        int result = newsSource != null ? newsSource.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (newsSource != null ? newsSource.hashCode() : 0);
         result = 31 * result + (newsTopic != null ? newsTopic.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;

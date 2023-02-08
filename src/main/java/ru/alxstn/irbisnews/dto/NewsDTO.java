@@ -6,10 +6,8 @@ public class NewsDTO {
     private String source;
     private String topic;
 
-    public NewsDTO() {
-    }
-
-    public NewsDTO(String content, String source, String topic) {
+    public NewsDTO(long id, String content, String source, String topic) {
+        this.id = id;
         this.content = content;
         this.source = source;
         this.topic = topic;

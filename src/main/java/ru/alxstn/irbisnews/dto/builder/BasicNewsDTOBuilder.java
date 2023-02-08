@@ -8,11 +8,10 @@ import ru.alxstn.irbisnews.entity.NewsEntry;
 public class BasicNewsDTOBuilder implements NewsDTOBuilder {
     @Override
     public NewsDTO fromEntry(NewsEntry entry) {
-        return new NewsDTO() {{
-            setId(entry.getId());
-            setContent(entry.getContent());
-            setSource(entry.getNewsSource().getName());
-            setTopic(entry.getNewsTopic().getTitle());
-        }};
+        return new NewsDTO(
+                entry.getId(),
+                entry.getContent(),
+                entry.getNewsSource().getName(),
+                entry.getNewsTopic().getTitle());
     }
 }

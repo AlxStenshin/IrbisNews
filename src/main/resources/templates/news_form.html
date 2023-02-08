@@ -37,9 +37,14 @@
 
 <table th:border="1">
     <thead>
+    <tr>
+        <div th:if="${message != null}">
+        <th th:text="${message}" />
+        </div>
+    </tr>
     </thead>
     <tbody>
-    <tr th:each="entry : ${newsPage.content}">
+        <tr th:each="entry : ${newsPage?.content}">
         <td th:text="${entry.id}" />
 
         <td> <a th:href="@{/html/news(source=${entry.source})}"

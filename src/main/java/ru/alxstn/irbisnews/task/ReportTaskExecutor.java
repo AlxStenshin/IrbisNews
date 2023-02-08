@@ -25,9 +25,7 @@ public class ReportTaskExecutor {
         try {
             executorService.execute(runnable);
         } catch (RejectedExecutionException e) {
-            logger.warn("Task Rejected: recreating executor now.");
-            init();
-            executorService.execute(runnable);
+            logger.warn("Task Rejected: skipping task." + e.getMessage());
         }
     }
 }
