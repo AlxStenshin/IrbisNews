@@ -54,21 +54,18 @@ class NewsTopicControllerTest {
                 .andReturn();
 
         assertEquals("[]", result.getResponse().getContentAsString());
-
     }
 
     @Test
-    void shouldReturnListOfFourSources() throws Exception {
+    void shouldReturnListOfTwoSources() throws Exception {
         List<NewsTopic> input = List.of(
-                new NewsTopic("one"),
-                new NewsTopic("two"),
-                new NewsTopic("three"),
-                new NewsTopic("four")
+                new NewsTopic(1L,"one"),
+                new NewsTopic(2L,"two")
         );
 
         repository.saveAll(input);
 
-        var result =  mockMvc.perform(get("/api/v1/topic")
+        var result = mockMvc.perform(get("/api/v1/topic")
                         .header("token", "test-token"))
                 .andDo(print())
                 .andExpect(status().isOk())

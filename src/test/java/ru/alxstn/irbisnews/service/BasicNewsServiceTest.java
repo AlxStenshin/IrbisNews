@@ -11,7 +11,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.alxstn.irbisnews.dto.NewsDTO;
 import ru.alxstn.irbisnews.dto.builder.NewsDTOBuilder;
 import ru.alxstn.irbisnews.entity.NewsEntry;
-import ru.alxstn.irbisnews.entity.NewsSource;
 import ru.alxstn.irbisnews.entity.NewsTopic;
 import ru.alxstn.irbisnews.exception.NewsSourceNotFoundException;
 import ru.alxstn.irbisnews.exception.NewsTopicNotFoundException;
@@ -67,7 +66,7 @@ class BasicNewsServiceTest {
     @Test
     void shouldReturnPageWithSingleDTO() {
         Pageable pageable = PageRequest.of(0, 1);
-        NewsEntry entry = new NewsEntry(new NewsSource("source"), new NewsTopic("topic"), "content");
+        NewsEntry entry = new NewsEntry(new NewsTopic(1L, "topic"), "content");
         when(newsRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(entry), pageable, 1L));
         when(dtoBuilder.fromEntry(entry)).thenReturn(new NewsDTO(1L, "content", "source", "topic"));
 

@@ -13,10 +13,6 @@ public class NewsEntry {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "source_id", nullable = false)
-    private NewsSource newsSource;
-
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "topic_id", nullable = false)
     private NewsTopic newsTopic;
 
@@ -26,30 +22,33 @@ public class NewsEntry {
     public NewsEntry() {
     }
 
-    public NewsEntry(NewsSource newsSource, NewsTopic newsTopic, String content) {
-        this.newsSource = newsSource;
+    public NewsEntry( NewsTopic newsTopic, String content) {
         this.newsTopic = newsTopic;
         this.content = content;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getId() {
         return id;
     }
 
-    public NewsSource getNewsSource() {
-        return newsSource;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public NewsTopic getNewsTopic() {
         return newsTopic;
     }
 
+    public void setNewsTopic(NewsTopic newsTopic) {
+        this.newsTopic = newsTopic;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
@@ -60,7 +59,6 @@ public class NewsEntry {
         NewsEntry newsEntry = (NewsEntry) o;
 
         if (!Objects.equals(id, newsEntry.id)) return false;
-        if (!Objects.equals(newsSource, newsEntry.newsSource)) return false;
         if (!Objects.equals(newsTopic, newsEntry.newsTopic)) return false;
         return Objects.equals(content, newsEntry.content);
     }
@@ -68,7 +66,6 @@ public class NewsEntry {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (newsSource != null ? newsSource.hashCode() : 0);
         result = 31 * result + (newsTopic != null ? newsTopic.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;

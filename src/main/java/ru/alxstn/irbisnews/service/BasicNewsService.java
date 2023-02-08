@@ -1,7 +1,5 @@
 package ru.alxstn.irbisnews.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -44,18 +42,14 @@ public class BasicNewsService implements NewsService {
         var src = Optional.ofNullable(source);
         var top = Optional.ofNullable(topic);
 
-
         if (src.isEmpty() && top.isEmpty()) {
             return newsRepository.findAll(pr)
                     .map(dtoBuilder::fromEntry);
 
-        } else if (src.isPresent() && top.isPresent()) {
-            return newsRepository.findAllByNewsSourceAndNewsTopic(
-                            findSource(src.get()), findTopic(top.get()), pr)
-                    .map(dtoBuilder::fromEntry);
-
-        } else return src.map(s -> newsRepository.findAllByNewsSource(findSource(s), pr)
-                .map(dtoBuilder::fromEntry)).orElseGet(() -> newsRepository.findAllByNewsTopic(findTopic(top.get()), pr)
+        } else
+            return src.map(s -> newsRepository.findAllByNewsTopic_Source(findSource(s), pr)
+                .map(dtoBuilder::fromEntry))
+                .orElseGet(() -> newsRepository.findAllByNewsTopic(findTopic(top.get()), pr)
                 .map(dtoBuilder::fromEntry));
     }
 

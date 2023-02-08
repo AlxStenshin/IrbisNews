@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 
 @Component
 public class ReportTaskExecutor {
@@ -22,10 +21,16 @@ public class ReportTaskExecutor {
     }
 
     public void start(Runnable runnable) {
-        try {
-            executorService.execute(runnable);
-        } catch (RejectedExecutionException e) {
-            logger.warn("Task Rejected: skipping task." + e.getMessage());
-        }
+        executorService.execute(errorHandlingWrapper(runnable));
+    }
+
+    private Runnable errorHandlingWrapper(Runnable action) {
+        return () -> {
+            try {
+                action.run();
+            } catch (Throwable e) {
+                logger.warn("Task execution failed! " + e.getMessage());
+            }
+        };
     }
 }

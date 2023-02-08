@@ -88,7 +88,7 @@ class NewsControllerTest {
 
     @Test
     void shouldReceiveOkWithAvailableTopic() throws Exception {
-        newsTopicRepository.save(new NewsTopic("topic"));
+        newsTopicRepository.save(new NewsTopic(1L, "topic"));
 
         mockMvc.perform(get("/api/v1/news")
                         .header("token" , "test-token")
@@ -110,7 +110,7 @@ class NewsControllerTest {
 
     @Test
     void shouldReceiveOkWithBothAvailableSourceAndTopic() throws Exception {
-        newsTopicRepository.save(new NewsTopic("topic"));
+        newsTopicRepository.save(new NewsTopic(1L, "topic"));
         newsSourceRepository.save(new NewsSource("source"));
 
         mockMvc.perform(get("/api/v1/news")

@@ -11,7 +11,7 @@ public class BasicNewsDTOBuilder implements NewsDTOBuilder {
         return new NewsDTO(
                 entry.getId(),
                 entry.getContent(),
-                entry.getNewsSource().getName(),
+                entry.getNewsTopic().getSource().getName(),
                 entry.getNewsTopic().getTitle());
     }
 }
